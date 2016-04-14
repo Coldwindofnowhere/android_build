@@ -38,7 +38,7 @@ else
 endif
 
 # Disable modules that don't work with DragonTC. Split up by arch.
-DISABLE_DTC_arm :=
+DISABLE_DTC_arm := libRSSupport
 DISABLE_DTC_arm64 := libm v8_mksnapshot.arm64
 
 # Set DISABLE_DTC based on arch
@@ -63,10 +63,14 @@ DISABLE_POLLY_arm := \
   libLLVMScalarOpts \
   libLLVMSupport \
   libLLVMMC \
+  libF77blasV8 \
+  libminuitwrp \
+  libstagefright_amrwbenc \
+  libRSSupport \
   libminui \
   libF77blas \
   libRSCpuRef \
-  libRS	\
+  libRS \
   libRSDriver\
   libmedia \
   libjni_latinime_common_static
@@ -124,12 +128,12 @@ ifeq ($(my_clang),true)
     my_cxx := $(AOSP_CLANG_CXX)
     ifeq ($(HOST_OS),darwin)
       # Darwin is really bad at dealing with idiv/sdiv. Don't use krait on Darwin.
-      CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=cortex-a9
+      CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=cortex-a8
     else
-      CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=krait
+      CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=cortex-a8
     endif
   else
-    CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=krait2
+    CLANG_CONFIG_arm_EXTRA_CFLAGS += -mcpu=cortex-a8
   endif
   # Host modules are not optimized to improve compile time.
   ifndef LOCAL_IS_HOST_MODULE
